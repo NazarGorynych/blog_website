@@ -4,6 +4,6 @@ from django.db import models
 
 class User(models.Model):
 
-    nickname = models.CharField(max_length=200)
+    nickname = models.CharField(max_length=200, unique=True)
     email = models.EmailField()
     password = models.CharField(max_length=50)
