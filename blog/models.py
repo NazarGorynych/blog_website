@@ -14,6 +14,7 @@ class Post(models.Model):
     published_date = models.DateField()
     title = models.CharField(max_length=200)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    slug = models.SlugField(unique=True)
     # slug = models.SlugField(unique=True)
     # text = models.CharField(max_length=300)
     # image = models.ImageField(upload_to='images')
