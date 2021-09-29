@@ -1,0 +1,43 @@
+
+.topnav {
+  background: radial-gradient(#3974d4, #264982);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.topnav a {
+  float: left;
+  color: #ffffff;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: bolder;
+}
+
+.topnav a:hover {
+  background: grey;
+  color: black;
+}
+.topnav div:hover {
+  background: grey;
+  color: black;
+}
+
+
+.logo-div {
+  float: right;
+  width: 55px;
+  height: 55px;
+  box-sizing: content-box;
+  margin-left: 100px;
+}
+
+img.logo {
+  display: block;
+  text-indent: -9999px;
+  max-width: 55px;
+  max-height: 55px;
+  background-size: 2.3%;
+  padding: 10px;
+}

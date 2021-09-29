@@ -6,15 +6,31 @@
     <meta http-equiv="x-ua-compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>{% block title %}My blog{% endblock %}</title>
-
+    <link rel="stylesheet" href="{% static 'blog-static/styles/header.css' %}">
     <link rel="stylesheet" href="{% static 'blog-static/styles/base.css' %}">
     {% block site_css %}{% endblock %}
 </head>
 <body>
    <header>
+       <div class="topnav">
+           <div class="logo-div" style="float: left">
+                <img class="logo" src="{% static 'blog-static/svg/home.svg'%}" alt="home">
+           </div>
+           <a href="">News</a>
+           <a href="">Subscriptions</a>
+           <a href="">My blog</a>
+           <a href="">Donate</a>
+           <div class="logo-div" style="margin-right: 100px; margin-left: 0px">
+               <img class="logo" src="{% static 'blog-static/svg/user.svg'%}" alt="user">
+           </div>
+           <a href="" style="float: right">User</a>
+
+       </div>
+
+   </header>
    <main>
         {% block body %}{% endblock %}
    </main>
-   </header>
+
 </body>
 </html>
