@@ -8,29 +8,43 @@
     <title>{% block title %}My blog{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'blog-static/styles/header.css' %}">
     <link rel="stylesheet" href="{% static 'blog-static/styles/base.css' %}">
+    <link rel="stylesheet" href="{% static 'blog-static/styles/footer.css' %}">
     {% block site_css %}{% endblock %}
 </head>
 <body>
    <header>
        <div class="topnav">
            <div class="logo-div" style="float: left">
-                <img class="logo" src="{% static 'blog-static/svg/home.svg'%}" alt="home">
+               <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 24 24">
+                   <path fill="#FDFBFB" d="M21.7,10l-9-8c-0.4-0.3-0.9-0.3-1.3,0l-9,8c-0.4,0.4-0.5,1-0.1,1.4c0.2,0.2,0.5,0.3,0.7,0.3h1v9c0,0.6,0.4,1,1,1h14c0.6,0,1-0.4,1-1v-9h1c0.6,0,1-0.4,1-1C22,10.4,21.9,10.2,21.7,10z M15,19.7H9v-3c0-1.7,1.3-3,3-3s3,1.3,3,3V19.7z"/>
+               </svg>
            </div>
            <a href="">News</a>
            <a href="">Subscriptions</a>
            <a href="">My blog</a>
            <a href="">Donate</a>
-           <div class="logo-div" style="margin-right: 100px; margin-left: 0px">
-               <img class="logo" src="{% static 'blog-static/svg/user.svg'%}" alt="user">
+           <div class="logo-div" style="margin-right: 100px; margin-left: 0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 24 24"><path fill="#FFFFFF" d="M12,12c2.8,0,5-2.2,5-5s-2.2-5-5-5S7,4.2,7,7S9.2,12,12,12z M21.3,20.8c-1.3-5.1-6.5-8.3-11.6-7c-3.4,0.9-6.1,3.5-7,7c-0.1,0.5,0.2,1.1,0.8,1.2c0.1,0,0.2,0,0.2,0h16.6c0.6,0,1-0.4,1-1C21.3,20.9,21.3,20.8,21.3,20.8z"/>
+                </svg>
            </div>
-           <a href="" style="float: right">User</a>
-
+           <a href="{% url 'register' %}" style="float: right">Log in</a>
        </div>
-
    </header>
    <main>
         {% block body %}{% endblock %}
    </main>
-
+    <footer>
+        <div class="footer">
+            <div class="footer-div">
+                <a> &copy; Nazarii Horchytsia Viktorovych</a>
+            </div>
+            <div class="footer-div" style="float: right">
+                <a href="">About us</a>
+                <a href="">Help</a>
+                <a href="">Privacy policy</a>
+                <a href="">Contact us</a>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

@@ -22,7 +22,7 @@
     margin-left: 100px;
 }
 
-img.logo {
+.icon {
     display: block;
     text-indent: -9999px;
     max-width: 55px;
@@ -32,10 +32,10 @@ img.logo {
 }
 
 .topnav a:hover {
-    color: white;
-    background-color: white;
+    color: #bacfef;
 }
 
-.topnav div:hover {
-    background-color: white;
+.icon:hover path {
+    fill: #bacfef;
 }
+

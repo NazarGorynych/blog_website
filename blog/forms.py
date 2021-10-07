@@ -1,11 +1,10 @@
 from django import forms
 from .models import User
 
+
 class UserForm(forms.ModelForm):
 
-    password = forms.CharField(widget=forms.PasswordInput)
     class Meta:
         model = User
+        fields = ['nickname', 'email', 'password']
 
-# class RegistrationForm(forms.Form):
-#     email = forms.EmailField(label='Your email')
