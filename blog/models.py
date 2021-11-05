@@ -1,15 +1,11 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
+class User(AbstractUser):
+    pass
 
-class User(models.Model):
-
-    nickname = models.CharField(max_length=30, unique=True)
-    email = models.EmailField(unique=True)
-    password = models.CharField(max_length=50)
-    slug = models.SlugField(unique=True)
-
-    def __str__(self):
-        return f'{self.nickname} - {self.email}'
+    # def __str__(self):
+    #     return f'{self.username} - {self.email}'
 
 
 class Post(models.Model):

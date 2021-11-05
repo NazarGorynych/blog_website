@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import User
-from .forms import UserForm
+from .forms import CustomUserCreationForm
 from django.template.defaultfilters import slugify
 
 
@@ -10,11 +10,11 @@ def index(request):
 
 def register(request):
     if request.method == 'POST':
-        form = UserForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             User = form.save()
             print('Success')
-    form = UserForm
+    form = CustomUserCreationForm
     return render(request, 'blog/register.html', {
         'form': form
     })

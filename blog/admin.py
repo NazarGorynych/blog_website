@@ -1,11 +1,16 @@
 from django.contrib import admin
 from .models import User, Post
+from .forms import CustomUserCreationForm, CustomUserChangeForm
+from django.contrib.auth.admin import UserAdmin
 
 
-class ClientAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug': ('nickname',)}
+class CustomUserAdmin(UserAdmin):
+    add_form = CustomUserCreationForm
+    form = CustomUserChangeForm
+    model = User
+    list_display = ['email', 'username',]
 
 
-admin.site.register(User, ClientAdmin)
+admin.site.register(User, CustomUserAdmin)
 admin.site.register(Post)
 
