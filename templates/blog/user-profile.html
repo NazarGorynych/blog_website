@@ -1,10 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'blog/../layouts/layout.html' %}
+{% load static %}
+{% block title %}My blog{% endblock %}
 
-</body>
-</html>
+{% block site_css %}
+    <link rel="stylesheet" href="{% static 'blog-static/styles/profile.css'%}">
+{% endblock %}
+
+{% block body %}
+    <div>
+        <div id="profile-div" style="float: left">
+            <p>{{ user }}</p>
+            <button><a href="{% url 'logged-out' %}">Log out</a></button>
+        </div>
+        <div id="profile-div"><img src="{% static 'blog-static/images/profile.png' %}" alt="Avatar" class="avatar"></div>
+    </div>
+{% endblock %}

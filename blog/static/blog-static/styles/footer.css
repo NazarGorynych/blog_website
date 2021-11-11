@@ -3,12 +3,12 @@
     left: 0;
     bottom: 0;
     width: 100%;
-    background-color: #a8c3db;
+    /*background-color: #a8c3db;*/
     color: white;
     text-align: center;
     height: 85px;
     box-sizing: border-box;
-    background: radial-gradient(#3974d4, #264982)
+    background: radial-gradient(#3974d4, #264982);
 }
 
 .footer-div {

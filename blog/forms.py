@@ -11,6 +11,12 @@ class CustomUserCreationForm(UserCreationForm):
         model = User
         fields = ('username', 'email')
 
+    def save(self, commit=True):
+        User = super(UserCreationForm, self).save(commit=False)
+        if commit:
+            User.save()
+        return User
+
 
 class CustomUserChangeForm(UserChangeForm):
 
@@ -18,17 +24,14 @@ class CustomUserChangeForm(UserChangeForm):
         model = User
         fields = ('username', 'email')
 
+
+class LoginForm(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)
+
     # def clean_password1(self):
     #     password = self.cleaned_data.get('password')
     #     password1 = self.cleaned_data.get('password1')
     #     if password and password1 and password != password1:
     #         msg = 'Passwords don\'t match'
     #     return password
-
-    # def save(self, commit=True):
-    #
-    #     User = super(UserForm, self).save(commit=False)
-    #     if commit:
-    #         User.slug = slugify(User.username)
-    #         User.save()
-    #     return User
