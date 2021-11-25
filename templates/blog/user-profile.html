@@ -8,10 +8,17 @@
 
 {% block body %}
     <div>
-        <div id="profile-div" style="float: left">
+        <div id="profile-div"style="float: left" >
             <p>{{ user }}</p>
             <button><a href="{% url 'logged-out' %}">Log out</a></button>
         </div>
         <div id="profile-div"><img src="{% static 'blog-static/images/profile.png' %}" alt="Avatar" class="avatar"></div>
+    </div>
+    <div id="profile-div">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_ul }}
+            <button type="submit">Post</button>
+        </form>
     </div>
 {% endblock %}

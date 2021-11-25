@@ -1,8 +1,7 @@
 from django import forms
-from .models import User
+from .models import User, Post
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from django.template.defaultfilters import slugify
-
+from django.forms import ModelForm
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -11,8 +10,8 @@ class CustomUserCreationForm(UserCreationForm):
         model = User
         fields = ('username', 'email')
 
-    def save(self, commit=True):
-        User = super(UserCreationForm, self).save(commit=False)
+    def user_save(self, commit=True):
+        User = super(CustomUserCreationForm, self).save(commit=False)
         if commit:
             User.save()
         return User
@@ -28,6 +27,20 @@ class CustomUserChangeForm(UserChangeForm):
 class LoginForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
+
+
+class PostForm(ModelForm):
+
+    class Meta:
+        model = Post
+        fields = '__all__'
+        exclude = ['author', ]
+
+    def post_save(self, commit=True):
+        Post = super(PostForm, self).save(commit=False)
+        if commit:
+            Post.save()
+        return Post
 
     # def clean_password1(self):
     #     password = self.cleaned_data.get('password')

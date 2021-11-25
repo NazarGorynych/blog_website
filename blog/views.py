@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import User
-from .forms import CustomUserCreationForm, LoginForm
+from .forms import CustomUserCreationForm, LoginForm, PostForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 
@@ -13,8 +13,10 @@ def register(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            User = form.save()
+            form.user_save()
             print('Success')
+        else:
+            print('failure')
     form = CustomUserCreationForm
     return render(request, 'blog/register.html', {
         'form': form
@@ -22,6 +24,7 @@ def register(request):
 
 
 def user_login(request):
+
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -30,25 +33,32 @@ def user_login(request):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    print(user)
                     return HttpResponse('Authenticated successfully')
                 else:
                     return HttpResponse('Disabled account')
             else:
                 return HttpResponse('Invalid login')
-
     else:
         form = LoginForm()
     return render(request, 'blog/login.html', {'form': form})
 
 
 def user_profile(request):
-    return render(request, 'blog/user-profile.html')
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if User.is_authenticated:
+            if form.is_valid:
+                form = form.save(commit=False)
+                form.author = request.user
+                form.save()
+    form = PostForm()
+    return render(request, 'blog/user-profile.html', {'form': form})
 
 
 def user_logout(request):
     logout(request)
     return redirect(index)
+
 
 def homepage(request, user_slug):
     selected_user = User.objects.get(slug=user_slug)
