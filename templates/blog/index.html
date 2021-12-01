@@ -1,48 +1,11 @@
 {% extends 'blog/../layouts/layout.html' %}
 
-{% block title %}My blog{% endblock %}
-
 {% block body %}
     <div>
-        <article>
-            <ul>
-                <li>Hi I am John!</li>
-                <li>Hi I am Marry!</li>
-                <li>Hi I am Wolfgang!</li>
-                <li>Hi I am Josh!</li>
-            </ul>
-        </article>
-        <article>
-            <ul>
-                <li>Hi I am John!</li>
-                <li>Hi I am Marry!</li>
-                <li>Hi I am Wolfgang!</li>
-                <li>Hi I am Josh!</li>
-            </ul>
-        </article>
-        <article>
-            <ul>
-                <li>Hi I am John!</li>
-                <li>Hi I am Marry!</li>
-                <li>Hi I am Wolfgang!</li>
-                <li>Hi I am Josh!</li>
-            </ul>
-        </article>
-        <article>
-            <ul>
-                <li>Hi I am John!</li>
-                <li>Hi I am Marry!</li>
-                <li>Hi I am Wolfgang!</li>
-                <li>Hi I am Josh!</li>
-            </ul>
-        </article>
-        <article>
-            <ul>
-                <li>Hi I am John!</li>
-                <li>Hi I am Marry!</li>
-                <li>Hi I am Wolfgang!</li>
-                <li>Hi I am Josh!</li>
-            </ul>
-        </article>
+    {% for post in post_list %}
+        <div style="float: top; box-sizing: content-box; position: relative">
+            {% include 'blog/includes/post_template.html' %}
+        </div>
+    {% endfor %}
     </div>
 {% endblock %}

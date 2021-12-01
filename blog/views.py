@@ -1,13 +1,32 @@
 from django.shortcuts import render, redirect
-from .models import User
+from .models import User, Post
 from .forms import CustomUserCreationForm, LoginForm, PostForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
+from django.views import generic
+
+
+class PostListView(generic.ListView):
+    model = Post
+    context_object_name = 'post_list'
+    template_name = 'blog/index.html'
+    queryset = Post.objects.all()
+    #
+    # def get_queryset(self):
+    #     return Post.objects.all()
+    # #
+    # def get_context_data(self, **kwargs):
+    #     context = super(PostListView, self).get_context_data(**kwargs)
+    #     return context
+
+# class PostView(generic.DetailView):
+#     model = Post
+#     template_name = 'blog'
 
 
 def index(request):
+    # all_posts = Post.objects.all()
     return render(request, 'blog/index.html')
-
 
 def register(request):
     if request.method == 'POST':
@@ -43,6 +62,11 @@ def user_login(request):
     return render(request, 'blog/login.html', {'form': form})
 
 
+def user_logout(request):
+    logout(request)
+    return redirect(index)
+
+
 def user_profile(request):
     if request.method == 'POST':
         form = PostForm(request.POST)
@@ -54,10 +78,6 @@ def user_profile(request):
     form = PostForm()
     return render(request, 'blog/user-profile.html', {'form': form})
 
-
-def user_logout(request):
-    logout(request)
-    return redirect(index)
 
 
 def homepage(request, user_slug):
