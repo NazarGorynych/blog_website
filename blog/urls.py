@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     path('', views.PostListView.as_view(), name='posts'),
+    path('subscriptions/', views.SearchView.as_view(), name='subscriptions'),
     path('register/', views.register, name='register'),
     path('login/', views.user_login, name='login'),
     path('logout/', views.user_logout, name='logged-out'),

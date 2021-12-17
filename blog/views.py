@@ -24,9 +24,25 @@ class PostListView(generic.ListView):
 #     template_name = 'blog'
 
 
+class SearchView(generic.ListView):
+    model = User
+    template_name = 'blog/subscriptions.html'
+    context_object_name = 'all_search_results'
+
+    def get_queryset(self):
+        result = super(SearchView, self).get_queryset()
+        query = self.request.GET.get('search')
+        if query:
+            post_result = User.objects.filter(username__contains=query)
+            result = post_result
+        else:
+            result = None
+        return result
+
 def index(request):
     # all_posts = Post.objects.all()
     return render(request, 'blog/index.html')
+
 
 def register(request):
     if request.method == 'POST':
@@ -64,7 +80,7 @@ def user_login(request):
 
 def user_logout(request):
     logout(request)
-    return redirect(index)
+    return redirect(user_login)
 
 
 def user_profile(request):
@@ -77,7 +93,6 @@ def user_profile(request):
                 form.save()
     form = PostForm()
     return render(request, 'blog/user-profile.html', {'form': form})
-
 
 
 def homepage(request, user_slug):

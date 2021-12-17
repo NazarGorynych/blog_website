@@ -1,10 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'blog/../layouts/layout.html' %}
+
+{% block body %}
+    <form method="GET">
+        <input type="text" placeholder="Enter your search here" name="search">
+        <button type="submit">
+            Search
+        </button>
+    </form>
+    <p>Search results: </p>
+{% for result in all_search_results %}
+      <div>
+           <a href="{% url 'profile' %}">{{ result.username }}</a>
+      </div>
+{% endfor %}
+
+
+{% endblock %}
