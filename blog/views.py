@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import User, Post
 from .forms import CustomUserCreationForm, LoginForm, PostForm
 from django.contrib.auth import authenticate, login, logout
@@ -11,33 +11,37 @@ class PostListView(generic.ListView):
     context_object_name = 'post_list'
     template_name = 'blog/index.html'
     queryset = Post.objects.all()
-    #
-    # def get_queryset(self):
-    #     return Post.objects.all()
-    # #
-    # def get_context_data(self, **kwargs):
-    #     context = super(PostListView, self).get_context_data(**kwargs)
-    #     return context
 
 # class PostView(generic.DetailView):
 #     model = Post
 #     template_name = 'blog'
 
 
-class SearchView(generic.ListView):
+class UserSearchView(generic.ListView):
     model = User
     template_name = 'blog/subscriptions.html'
-    context_object_name = 'all_search_results'
+    context_object_name = 'users'
 
     def get_queryset(self):
-        result = super(SearchView, self).get_queryset()
+        # result = super(UserSearchView, self).get_queryset()
         query = self.request.GET.get('search')
         if query:
-            post_result = User.objects.filter(username__contains=query)
-            result = post_result
+            result = User.objects.filter(username__icontains=query)
+            users = []
+            for object in result:
+                users.append(object)
         else:
             result = None
-        return result
+            users = None
+        return users
+
+    # def get_user_object(self, result):
+    #     for query in result:
+    #         print(query)
+    #         user_object = get_object_or_404(query)
+    #         print(user_object)
+    #     return user_object, redirect(user_profile)
+
 
 def index(request):
     # all_posts = Post.objects.all()
@@ -83,16 +87,26 @@ def user_logout(request):
     return redirect(user_login)
 
 
-def user_profile(request):
-    if request.method == 'POST':
+# def visited_profile(request):
+#
+#     return render(request, 'blog/visited-profile.html')
+#
+
+def user_profile(request, id):
+    selected_user = get_object_or_404(User, pk=id)
+    print(selected_user.username)
+    if selected_user.is_authenticated and request.method == 'POST':
         form = PostForm(request.POST)
-        if User.is_authenticated:
-            if form.is_valid:
-                form = form.save(commit=False)
-                form.author = request.user
-                form.save()
+        if form.is_valid:
+            form = form.save(commit=False)
+            form.author = request.user
+            form.save()
     form = PostForm()
-    return render(request, 'blog/user-profile.html', {'form': form})
+    return render(request, 'blog/user-profile.html', {
+        'form': form,
+        'selected_user': selected_user
+        })
+
 
 
 def homepage(request, user_slug):

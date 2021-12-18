@@ -9,7 +9,7 @@
 {% block body %}
     <div>
         <div id="profile-div"style="float: left" >
-            <p>{{ user }}</p>
+            <p>{{ selected_user }}</p>
             <button><a href="{% url 'logged-out' %}">Log out</a></button>
         </div>
         <div id="profile-div"><img src="{% static 'blog-static/images/profile.png' %}" alt="Avatar" class="avatar"></div>

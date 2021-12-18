@@ -8,9 +8,9 @@
         </button>
     </form>
     <p>Search results: </p>
-{% for result in all_search_results %}
+{% for user in users %}
       <div>
-           <a href="{% url 'profile' %}">{{ result.username }}</a>
+           <a href="{% url 'profile' user.id %}">{{ user }}</a>
       </div>
 {% endfor %}
 
