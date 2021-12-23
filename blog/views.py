@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import User, Post
+from .models import User, Post, UserFollowing
 from .forms import CustomUserCreationForm, LoginForm, PostForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
@@ -31,16 +31,8 @@ class UserSearchView(generic.ListView):
             for object in result:
                 users.append(object)
         else:
-            result = None
             users = None
         return users
-
-    # def get_user_object(self, result):
-    #     for query in result:
-    #         print(query)
-    #         user_object = get_object_or_404(query)
-    #         print(user_object)
-    #     return user_object, redirect(user_profile)
 
 
 def index(request):
@@ -68,7 +60,8 @@ def user_login(request):
         form = LoginForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
-            user = authenticate(username=cd['username'], password=cd['password'])
+            user = authenticate(username=cd['username'],
+                                password=cd['password'])
             if user is not None:
                 if user.is_active:
                     login(request, user)
@@ -87,26 +80,41 @@ def user_logout(request):
     return redirect(user_login)
 
 
-# def visited_profile(request):
-#
-#     return render(request, 'blog/visited-profile.html')
-#
-
 def user_profile(request, id):
     selected_user = get_object_or_404(User, pk=id)
-    print(selected_user.username)
-    if selected_user.is_authenticated and request.method == 'POST':
-        form = PostForm(request.POST)
-        if form.is_valid:
-            form = form.save(commit=False)
-            form.author = request.user
-            form.save()
+    master_user = request.user
+    followed = False
+    if UserFollowing.objects.filter(master_user=master_user, following_user=selected_user):
+        followed = True
+    if selected_user == master_user:             # display form for Posting for currently signed in user
+        if request.method == 'POST':
+            form = PostForm(request.POST)
+            if form.is_valid:
+                form = form.save(commit=False)
+                form.author = request.user
+                form.save()
     form = PostForm()
+    print(followed)
     return render(request, 'blog/user-profile.html', {
         'form': form,
-        'selected_user': selected_user
+        'selected_user': selected_user,
+        'master_user': master_user,
+        'followed': followed
         })
 
+
+def follow_user(request, id):
+    master_user = request.user
+    selected_user = get_object_or_404(User, pk=id)
+    isfollowed = UserFollowing.objects.filter(master_user=master_user,
+                                                     following_user=selected_user)
+    if isfollowed:
+        isfollowed.delete()                                         # unfollow the followed user
+    else:
+        UserFollowing.objects.create(master_user=master_user,       # follow the selected user
+                                     following_user=selected_user
+                                     )
+    return redirect(user_profile, id)
 
 
 def homepage(request, user_slug):

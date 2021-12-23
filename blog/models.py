@@ -7,10 +7,12 @@ class User(AbstractUser):
 
 
 class UserFollowing(models.Model):
-    user_id = models.ForeignKey("User", related_name="following", on_delete=models.CASCADE)
-    following_user_id = models.ForeignKey("User", related_name="followers", on_delete=models.CASCADE)
+    master_user = models.ForeignKey(User, related_name="master_user_id", on_delete=models.CASCADE)
+    following_user = models.ForeignKey(User, related_name="following_user_id", on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        unique_together = ('master_user', 'following_user')
 
 class Post(models.Model):
 

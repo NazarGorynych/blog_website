@@ -5,20 +5,38 @@
 {% block site_css %}
     <link rel="stylesheet" href="{% static 'blog-static/styles/profile.css'%}">
 {% endblock %}
-
 {% block body %}
-    <div>
-        <div id="profile-div"style="float: left" >
-            <p>{{ selected_user }}</p>
-            <button><a href="{% url 'logged-out' %}">Log out</a></button>
+        <div id="profile-div">
+            <a>{{ selected_user }}</a>
         </div>
         <div id="profile-div"><img src="{% static 'blog-static/images/profile.png' %}" alt="Avatar" class="avatar"></div>
-    </div>
-    <div id="profile-div">
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_ul }}
-            <button type="submit">Post</button>
-        </form>
-    </div>
+    {% if selected_user == master_user %}
+        <div>
+            <div>
+                <div id="profile-div" style="float: left">
+                    <button><a href="{% url 'logged-out' %}">Log out</a></button>
+                </div>
+            </div>
+            <div id="profile-div">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.as_ul }}
+                    <button type="submit">Post</button>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+    {% if followed  %}
+        <div>
+            <button type="submit" class="follow"><a href="{% url 'follow-user' selected_user.id %}">Unfollow</a></button>
+        <p>need some work to do</p>
+        </div>
+    {% else %}
+        <div>
+            <button type="submit" class="follow"><a href="{% url 'follow-user' selected_user.id %}">Follow</a></button>
+        </div>
+    {% endif %}
+
+<script src={% static 'blog-static/javascript/script.js' %}></script>
+
 {% endblock %}
